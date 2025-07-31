@@ -28,7 +28,7 @@ The pretrained VGG16 model is required to run predictions.
 1. **Download the model** from [this link](https://drive.google.com/uc?export=download&id=1AU0MuvewEeXWVu-j-WoXO6bw391VGyNl).  
 2. Move the downloaded file to the `models/` directory.  
 
-Alternatively, you can use the following command:  
+Alternatively, you can use the following command (Windows Powershell) use this command in the same git cloned directiry only:  
 ```bash
 if ((Split-Path -Leaf (Get-Location)) -ne "streamlit-backend") {
     Write-Host "❌ Please navigate to the 'streamlit-backend' directory before running this command." -ForegroundColor Red
