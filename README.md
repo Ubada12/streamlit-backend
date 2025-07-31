@@ -25,12 +25,26 @@ pip install -r requirements.txt
 ### **📥 Download Pretrained Model**  
 The pretrained VGG16 model is required to run predictions.  
 
-1. **Download the model** from [this link](https://drive.google.com/file/d/1B6NoDc4ejFL4ogkzpIOb4dbLpiSngpSn/view?usp=drive_link).  
+1. **Download the model** from [this link](https://drive.google.com/uc?export=download&id=1AU0MuvewEeXWVu-j-WoXO6bw391VGyNl).  
 2. Move the downloaded file to the `models/` directory.  
 
 Alternatively, you can use the following command:  
 ```bash
-wget "https://drive.google.com/uc?export=download&id=1B6NoDc4ejFL4ogkzpIOb4dbLpiSngpSn" -O models/vgg16_model.keras
+if ((Split-Path -Leaf (Get-Location)) -ne "streamlit-backend") {
+    Write-Host "❌ Please navigate to the 'streamlit-backend' directory before running this command." -ForegroundColor Red
+} else {
+    $url="https://drive.google.com/uc?export=download&id=1AU0MuvewEeXWVu-j-WoXO6bw391VGyNl"
+    $zip="ml_models.zip"
+    Invoke-WebRequest $url -OutFile $zip
+    Expand-Archive -Path $zip -DestinationPath .
+    Remove-Item $zip
+    if (Test-Path ".\ml_models") {
+        Write-Host "✅ ml_models folder successfully added!" -ForegroundColor Green
+    } else {
+        Write-Host "❌ Extraction failed. Check ZIP contents." -ForegroundColor Red
+    }
+}
+
 ```
 
 ---
