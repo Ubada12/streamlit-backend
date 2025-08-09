@@ -12,7 +12,7 @@ async def get_latest_s3_image():
     """
     try:
         service = S3Service()
-        encoded_image = service.get_random_image_base64()
-        return JSONResponse(content={"imageBase64": encoded_image})
+        result = service.get_random_image_base64()
+        return JSONResponse(content=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

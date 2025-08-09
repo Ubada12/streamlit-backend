@@ -19,7 +19,19 @@ class WeatherService:
             async with httpx.AsyncClient(timeout=10) as client:
                 response = await client.get(url, headers=headers)
                 response.raise_for_status()
-                return response.json()
+                data = response.json()  # Parse JSON into dict
+
+                city = data.get("address", {}).get("city", "")
+                address = data.get("display_name", "")
+
+                # Validate city and address
+                if not city or not address:
+                    raise RuntimeError("Reverse geocoding returned empty city or address")
+
+                return {
+                    "city": city,
+                    "address": address
+                }
         except httpx.HTTPStatusError as e:
             raise RuntimeError(f"Nominatim API returned error {e.response.status_code}")
         except Exception as e:

@@ -15,7 +15,7 @@ class DataProcessing:
     def fetch_data(self):
         """Fetch weather data from API"""
         try:
-            uri = f"https://api.weatherbit.io/v2.0/current?lat={self.lat}&lon={self.lon}&key=41065794439a472e920f72ff43512ffc"
+            uri = f"https://api.weatherbit.io/v2.0/current?lat={self.lat}&lon={self.lon}&key={settings.API_KEY}"
             print(uri)
             response = requests.get(uri)
             response.raise_for_status()  # Raise an error for non-200 responses
