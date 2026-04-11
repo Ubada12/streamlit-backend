@@ -1,0 +1,29 @@
+# Core framework
+fastapi>=0.110
+uvicorn[standard]>=0.30
+
+# ML and data processing
+tensorflow==2.18.0
+xgboost
+numpy>=1.23,<3
+pillow==11.1.0
+opencv-python==4.10.0.84
+matplotlib==3.10.0
+joblib==1.4.2
+lime==0.2.0.1
+shap==0.46.0
+
+# Utilities
+python-dotenv
+httpx
+python-multipart
+requests==2.32.3
+plotly
+boto3
+
+# Configuration management
+pydantic>=2.9
+pydantic-settings>=2.0
+
+# Development (optional)
+streamlit==1.41.1
