@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # -------------------------
     # CORS
     # -------------------------
-    ALLOWED_ORIGINS: List[str] = ["*"]
+    ALLOWED_ORIGINS: List[str] = ["https://streamlit-frontend.vercel.app"]
 
     # -------------------------
     # ML Configurations
