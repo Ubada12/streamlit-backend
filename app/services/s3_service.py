@@ -12,9 +12,10 @@ class S3Service:
         self.bucket_name = settings.BUCKET_NAME
         self.folders = ["PARTIALLY BLOCKAGE/", "NO BLOCKAGE/", "FULL BLOCKAGE/"]
 
-    def get_random_image_base64(self) -> str:
+    def get_random_image_base64(self) -> dict:
         """
-        Fetch a random image from a random S3 folder and return it as base64 string.
+        Fetch a random image from a random S3 folder and return it as base64 string,
+        along with its metadata (lat/lon guaranteed).
         """
         try:
             # Step 1: Pick a random folder
@@ -32,14 +33,24 @@ class S3Service:
             # Step 3: Pick a random image from that folder
             image_key = random.choice(response['Contents'])["Key"]
 
-            # Step 4: Fetch and encode the image
+            # Step 4: Fetch the image
             image_obj = self.s3_client.get_object(Bucket=self.bucket_name, Key=image_key)
             image_data = image_obj['Body'].read()
+
+            # Step 5: Fetch metadata for that image
+            head_obj = self.s3_client.head_object(Bucket=self.bucket_name, Key=image_key)
+            metadata = head_obj.get("Metadata", {})
+
+            # Ensure lat/lon keys always exist
+            lat = metadata.get("lat", "None")
+            lon = metadata.get("lon", "None")
+
             return {
                 "imageBase64": base64.b64encode(image_data).decode('utf-8'),
                 "folder": random_folder,
-                "imageKey": image_key
-                }
-    
+                "imageKey": image_key,
+                "metadata": {**metadata, "lat": lat, "lon": lon}
+            }
+
         except Exception as e:
             raise RuntimeError(f"Failed to fetch image from S3: {str(e)}")
