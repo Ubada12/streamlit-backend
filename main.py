@@ -1,10 +1,11 @@
-# app/main.py
+# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.logging import configure_logging
 from app.api.v1.router import api_router
 from app.services.flood_service import FloodModelService
+
 
 def create_app() -> FastAPI:
     """Factory to create FastAPI app with modular setup."""
@@ -15,7 +16,7 @@ def create_app() -> FastAPI:
         version=settings.VERSION,
         description="Public ML & Weather Prediction API",
         docs_url="/docs",
-        redoc_url="/redoc"
+        redoc_url="/redoc",
     )
 
     # CORS
@@ -37,8 +38,9 @@ def create_app() -> FastAPI:
 
     return app
 
+
 app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
