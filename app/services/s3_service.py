@@ -43,16 +43,22 @@ class S3Service:
                 if not obj["Key"].endswith("/") and obj.get("Size", 0) > 0
             ]
             if not image_keys:
-                raise RuntimeError(f"No valid image files found in S3 folder '{random_folder}'")
+                raise RuntimeError(
+                    f"No valid image files found in S3 folder '{random_folder}'"
+                )
 
             image_key = random.choice(image_keys)
 
             # Step 4: Fetch the image
-            image_obj = self.s3_client.get_object(Bucket=self.bucket_name, Key=image_key)
+            image_obj = self.s3_client.get_object(
+                Bucket=self.bucket_name, Key=image_key
+            )
             image_data = image_obj["Body"].read()
 
             # Step 5: Fetch metadata for that image
-            head_obj = self.s3_client.head_object(Bucket=self.bucket_name, Key=image_key)
+            head_obj = self.s3_client.head_object(
+                Bucket=self.bucket_name, Key=image_key
+            )
             metadata = head_obj.get("Metadata", {})
 
             # Ensure lat/lon keys always exist

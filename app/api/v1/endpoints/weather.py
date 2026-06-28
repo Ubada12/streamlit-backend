@@ -4,6 +4,7 @@ from app.services.weather_service import WeatherService
 
 router = APIRouter()
 
+
 @router.get("/reverse-geocode")
 async def reverse_geocode(lat: float, lon: float):
     """

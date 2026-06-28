@@ -19,4 +19,6 @@ class FloodPredictionResponse(BaseModel):
     weather_shap_value: Optional[Any] = None
     drain_blockage: Optional[Any] = None
     drain_blockage_prob: Optional[Any] = None
-    drain_blockage_shap_value: Optional[Any] = None  # was: drain_blockage_shape_value (typo)
+    drain_blockage_shap_value: Optional[Any] = (
+        None  # was: drain_blockage_shape_value (typo)
+    )

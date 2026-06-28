@@ -16,7 +16,11 @@ async def predict_flood(image: UploadFile = File(...), request: str = Form(...))
     All error detail values are plain strings so the frontend can render them directly.
     """
     try:
-        if not (FloodModelService.vgg_model and FloodModelService.xgb_model and FloodModelService.scaler):
+        if not (
+            FloodModelService.vgg_model
+            and FloodModelService.xgb_model
+            and FloodModelService.scaler
+        ):
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Prediction models are not loaded. Please check server startup logs.",

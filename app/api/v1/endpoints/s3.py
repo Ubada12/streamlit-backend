@@ -5,6 +5,7 @@ from app.services.s3_service import S3Service
 
 router = APIRouter()
 
+
 @router.get("/get-latest-s3-image")
 async def get_latest_s3_image():
     """

@@ -19,7 +19,7 @@ class EmailService:
         return {
             "template_id": settings.MSG91_TEMPLATE_ID,
             "from": {
-                "name":  settings.SENDER_NAME,
+                "name": settings.SENDER_NAME,
                 "email": settings.SENDER_EMAIL,
             },
             "recipients": [
@@ -27,24 +27,24 @@ class EmailService:
                     "to": [
                         {
                             "email": settings.RECIPIENT_EMAIL,
-                            "name":  settings.RECIPIENT_NAME,
+                            "name": settings.RECIPIENT_NAME,
                         }
                     ],
                     # Keys must match ##placeholder## names in the MSG91 template
                     "variables": {
-                        "Timestamp":      payload.Timestamp,
-                        "risk":           payload.risk,
-                        "address":        payload.address,
-                        "latitude":       payload.latitude,
-                        "longitude":      payload.longitude,
-                        "temperature":    payload.temperature,
-                        "precipitation":  payload.precipitation,
-                        "wind_speed":     payload.wind_speed,
-                        "humidity":       payload.humidity,
-                        "visibility":     payload.visibility,
-                        "condition":      payload.condition,
-                        "uv_index":       payload.uv_index,
-                        "pressure":       payload.pressure,
+                        "Timestamp": payload.Timestamp,
+                        "risk": payload.risk,
+                        "address": payload.address,
+                        "latitude": payload.latitude,
+                        "longitude": payload.longitude,
+                        "temperature": payload.temperature,
+                        "precipitation": payload.precipitation,
+                        "wind_speed": payload.wind_speed,
+                        "humidity": payload.humidity,
+                        "visibility": payload.visibility,
+                        "condition": payload.condition,
+                        "uv_index": payload.uv_index,
+                        "pressure": payload.pressure,
                         "cloud_coverage": payload.cloud_coverage,
                     },
                 }
@@ -65,8 +65,8 @@ class EmailService:
                 response = await client.post(
                     settings.MSG91_API_URL,
                     headers={
-                        "authkey":       settings.MSG91_AUTH_KEY,
-                        "Content-Type":  "application/json",
+                        "authkey": settings.MSG91_AUTH_KEY,
+                        "Content-Type": "application/json",
                     },
                     json=msg91_payload,
                 )
@@ -78,6 +78,8 @@ class EmailService:
                 return response.json()
 
         except httpx.HTTPStatusError as e:
-            raise RuntimeError(f"MSG91 API error {e.response.status_code}: {e.response.text}")
+            raise RuntimeError(
+                f"MSG91 API error {e.response.status_code}: {e.response.text}"
+            )
         except Exception as e:
             raise RuntimeError(f"Failed to send flood alert email: {e}")

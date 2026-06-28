@@ -13,12 +13,14 @@ class MlPipeline:
         Models are passed in by the caller (FloodModelService) to avoid
         circular imports and repeated disk reads.
         """
-        self.data   = data
-        self.model  = model
+        self.data = data
+        self.model = model
         self.scaler = scaler
 
         if self.scaler is None or self.model is None:
-            raise ValueError("Model or scaler is None — ensure FloodModelService.load_models() ran at startup.")
+            raise ValueError(
+                "Model or scaler is None — ensure FloodModelService.load_models() ran at startup."
+            )
 
     def validate_data(self):
         """Ensure input data is a DataFrame or NumPy array before scaling."""
@@ -40,7 +42,9 @@ class MlPipeline:
     def explain_shap(self):
         """Compute SHAP values for the XGBoost model's predictions."""
         try:
-            explainer  = shap.Explainer(self.model, feature_names=self.data.columns.tolist())
+            explainer = shap.Explainer(
+                self.model, feature_names=self.data.columns.tolist()
+            )
             shap_values = explainer(self.scale())
             return shap_values
         except Exception as e:

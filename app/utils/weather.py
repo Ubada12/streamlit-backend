@@ -48,11 +48,17 @@ class DataProcessing:
         missing_meta = [c for c in settings.META_DATA if c not in df.columns]
 
         if missing_input:
-            raise ValueError(f"Missing input columns from API response: {missing_input}")
+            raise ValueError(
+                f"Missing input columns from API response: {missing_input}"
+            )
         if missing_output:
-            raise ValueError(f"Missing output columns from API response: {missing_output}")
+            raise ValueError(
+                f"Missing output columns from API response: {missing_output}"
+            )
         if missing_meta:
-            logger.warning(f"Missing metadata columns (will be skipped): {missing_meta}")
+            logger.warning(
+                f"Missing metadata columns (will be skipped): {missing_meta}"
+            )
             available_meta = [c for c in settings.META_DATA if c in df.columns]
         else:
             available_meta = settings.META_DATA

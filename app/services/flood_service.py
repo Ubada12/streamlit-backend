@@ -15,7 +15,7 @@ class FloodModelService:
     # Class-level cache — loaded once at startup, reused for every request
     vgg_model = None
     xgb_model = None
-    scaler    = None
+    scaler = None
 
     @classmethod
     def load_models(cls):
@@ -57,13 +57,19 @@ class FloodModelService:
         from app.utils.heuristic_rule import HeuristicModel
 
         try:
-            request_data  = json.loads(request_json)
+            request_data = json.loads(request_json)
             request_model = FloodPredictionRequest(**request_data)
         except (json.JSONDecodeError, ValueError) as e:
             raise ValueError(f"Invalid request payload: {e}")
 
-        if not (FloodModelService.vgg_model and FloodModelService.xgb_model and FloodModelService.scaler):
-            raise RuntimeError("Models not loaded. Ensure FloodModelService.load_models() ran at startup.")
+        if not (
+            FloodModelService.vgg_model
+            and FloodModelService.xgb_model
+            and FloodModelService.scaler
+        ):
+            raise RuntimeError(
+                "Models not loaded. Ensure FloodModelService.load_models() ran at startup."
+            )
 
         suffix = os.path.splitext(image_file.filename or "upload")[1] or ".jpg"
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)

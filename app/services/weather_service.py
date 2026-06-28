@@ -23,7 +23,9 @@ class WeatherService:
                 address = data.get("display_name", "")
 
                 if not city or not address:
-                    raise RuntimeError("Reverse geocoding returned empty city or address")
+                    raise RuntimeError(
+                        "Reverse geocoding returned empty city or address"
+                    )
 
                 return {"city": city, "address": address}
 
