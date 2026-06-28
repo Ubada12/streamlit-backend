@@ -1,25 +1,35 @@
-# Core framework
-fastapi>=0.110
-uvicorn[standard]>=0.30
+# =============================================================================
+# XAI-FLOWS Backend — Python 3.12
+#
+# Compatibility anchor: tensorflow==2.18.0 requires numpy>=1.26.0,<2.1.0
+# All other packages are bounded to stay within that numpy window.
+#
+# =============================================================================
 
-# ML and data processing
-tensorflow==2.18.0
-xgboost
-numpy>=1.23,<3
-pillow==11.1.0
-joblib==1.4.2
-shap==0.46.0
+# ── Core framework ────────────────────────────────────────────────────────────
+fastapi>=0.110.0,<1.0
+uvicorn[standard]>=0.30.0,<1.0      # [standard] adds uvloop + httptools for production
+gunicorn>=22.0.0,<24.0              # production process manager (use UvicornWorker)
+python-multipart>=0.0.9,<1.0       # required by FastAPI for UploadFile / Form
 
-# Utilities
-python-dotenv
-httpx
-python-multipart
-requests==2.32.3
-boto3
+# ── ML stack ─────────────────────────────────────────────────────────────────
+tensorflow==2.18.0                  # pinned — model trained on this version
+numpy>=1.26.0,<2.1.0               # TF 2.18.0 hard requirement (do not widen)
+scikit-learn>=1.5.0,<2.0           # needed to unpickle scaler.pkl; >=1.5 for numpy 2.x compat
+xgboost==2.1.4                      # pinned — matches version used to train xgb.pkl
+pandas>=2.0.0,<3.0                 # used in mlpipeline.py, heuristic_rule.py, weather.py
+pillow>=10.4.0,<12.0               # image pre-processing for VGG16 input
+joblib>=1.4.0,<2.0                 # model/scaler deserialisation; also used by sklearn/shap
+shap==0.46.0                       # SHAP explainability — pinned; verify before upgrading
 
-# Configuration management
-pydantic>=2.9
-pydantic-settings>=2.0
+# ── HTTP clients ──────────────────────────────────────────────────────────────
+httpx>=0.27.0,<1.0                 # async HTTP: geocoding, weather endpoints, email
+requests>=2.31.0,<3.0              # sync HTTP: Weatherbit API call in weather.py
 
-# Development only (not needed for API server)
-# streamlit==1.41.1  — used for local client only; install separately if needed
+# ── AWS ───────────────────────────────────────────────────────────────────────
+boto3>=1.34.0,<2.0                 # S3 image retrieval
+
+# ── Config / environment ──────────────────────────────────────────────────────
+python-dotenv>=1.0.0,<2.0
+pydantic>=2.9.0,<3.0
+pydantic-settings>=2.0.0,<3.0
