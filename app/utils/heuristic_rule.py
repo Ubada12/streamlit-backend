@@ -39,7 +39,7 @@ class HeuristicModel:
     def predict(self):
         precip = self.output_data["precip"]
         weather = self.output_data["weather"]
-        rh = self.output_data.get("rh", 0)
+        rh = self.input_data.get("rh", 0)
         blockage = self.blockage
         blockage_prob = self.blockage_prob
 

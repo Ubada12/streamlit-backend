@@ -12,8 +12,13 @@ router = APIRouter()
 @router.post("/predict-flood/", response_model=FloodPredictionResponse)
 async def predict_flood(image: UploadFile = File(...), request: str = Form(...)):
     """
-    Predict flood risk using heuristic + ML pipeline.
-    All error detail values are plain strings so the frontend can render them directly.
+    Unified flood prediction endpoint.
+
+    Accepts a drain-camera image and coordinates, runs the full ML pipeline,
+    reverse-geocodes the location, dispatches an alert email on High/Moderate
+    risk, and returns a single clean response.
+
+    All error detail values are plain strings so the frontend renders them directly.
     """
     try:
         if not (
@@ -25,10 +30,10 @@ async def predict_flood(image: UploadFile = File(...), request: str = Form(...))
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Prediction models are not loaded. Please check server startup logs.",
             )
-        return FloodModelService.predict_flood(image, request)
+        return await FloodModelService.predict_flood(image, request)
 
     except HTTPException:
-        raise  # re-raise FastAPI exceptions as-is
+        raise
 
     except FileNotFoundError as e:
         logger.error(f"Model file missing: {e}")
